@@ -9,7 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -18,8 +18,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li v-for="(link,index) in links" class="nav-item" :key="index">
-                        <a class="nav-link active" aria-current="page" :href="link.url" :title="`This link goes to ${link.text} page`">{{link.text}}</a>
+                    <li v-for="(page,index) in pages" class="nav-item" :key="index" @click.prevent="activePage=index">
+                        <a
+                        class="nav-link" 
+                        :class="{active: activePage == index}"
+                        aria-current="page" 
+                        :href="page.link.url" 
+                        :title="`This link goes to ${page.link.text} page`"
+                        >{{page.link.text}}</a>
                     </li>
                 </ul>
             </div>
@@ -27,29 +33,35 @@
     </nav>
 
     <div id="content" class="conatiner">
-        <h1>{{pageTitle}}</h1>
-        <p>{{pageContent}}</p>
+        <h1>{{pages[activePage].pageTitle}}</h1>
+        <p>{{pages[activePage].pageContent}}</p>
     </div>
     <script>
         Vue.createApp({
             data() {
-                return{
-                    links: [
-                        {text: 'Home', url: 'index.html' },
-                        {text: 'About', url: 'about.url' },
-                        {text: 'Contact', url: 'contact.url' }
-                    ]
-                };
-            }
-        }).mount('nav');
-        Vue.createApp({
-            data() {
                 return {
-                    pageTitle: 'Welcome to Vue',
-                    pageContent: 'This is a simple Vue application'
+                    activePage: 0,
+                    pages: [
+                        {
+                            link: { text: 'Home', url: 'index.html' },
+                            pageTitle: "Home Page<br>Welcome to Vue",
+                            pageContent: 'This is a simple Vue application'
+                        },
+                        {
+                            link: { text: 'About', url: 'about.html' },
+                            pageTitle: 'About Page<br>Welcome to Vue',
+                            pageContent: 'This is a simple Vue application'
+                        },
+                        {
+                            link: { text: 'Contact', url: 'contact.html' },
+                            pageTitle: 'Contact Page Welcome to Vue',
+                            pageContent: 'This is a simple Vue application'
+                        }
+                        
+                    ]
                 }
             }
-        }).mount('#content');
+        }).mount('body');
     </script>
 </body>
 </html>
